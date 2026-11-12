@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="h-full bg-[#F8F9FA]">
+<html lang="id" class="h-full bg-[#F8F9FA] scroll-smooth">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -51,224 +51,381 @@
             font-feature-settings: "cv02", "cv03", "cv04", "cv11";
             letter-spacing: -0.012em;
         }
+        .scrollbar-none::-webkit-scrollbar { display: none; }
+        .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 
     @stack('styles')
 </head>
-<body class="h-full font-sans text-studio-900 bg-[#F8F9FA] antialiased flex flex-col selection:bg-studio-950 selection:text-white">
+<body 
+    x-data="{ sidebarOpen: false }" 
+    class="h-full font-sans text-studio-900 bg-[#F8F9FA] antialiased flex flex-col selection:bg-studio-950 selection:text-white"
+>
 
-    <!-- CONSOLE HEADER (LINEAR / VERCEL STYLE APP SHELL) -->
-    <header class="sticky top-0 z-40 bg-white border-b border-studio-200">
-        
-        <!-- Primary App Bar -->
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-14">
-                
-                <!-- Brand & Workspace Path -->
-                <div class="flex items-center space-x-3">
-                    <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-2.5">
-                        <div class="w-7 h-7 rounded-lg bg-studio-950 text-white flex items-center justify-center font-bold text-xs font-mono tracking-tight shadow-xs">
-                            IS
-                        </div>
-                        <span class="font-bold text-sm tracking-tight text-studio-950">IdihSebel</span>
-                    </a>
-                    
-                    <span class="text-studio-300 font-mono text-sm">/</span>
-                    
-                    <div class="flex items-center space-x-2">
-                        <span class="text-xs font-semibold text-studio-600">Console</span>
-                        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono font-medium bg-studio-100 text-studio-600 border border-studio-200">
-                            Studio v1.0
-                        </span>
+    <!-- MOBILE SIDEBAR BACKDROP OVERLAY -->
+    <div 
+        x-show="sidebarOpen" 
+        x-cloak 
+        @click="sidebarOpen = false" 
+        class="fixed inset-0 z-40 bg-studio-950/40 backdrop-blur-xs lg:hidden transition-opacity"
+        aria-hidden="true"
+    ></div>
+
+    <!-- =========================================================================
+         MODERN FIXED LEFT SIDEBAR NAVIGATION
+         ========================================================================= -->
+    <aside 
+        :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
+        class="fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-studio-200 flex flex-col justify-between transition-transform duration-250 ease-in-out shadow-xs lg:shadow-none"
+    >
+        <!-- Top Half: Branding, DB Status & Nav Links -->
+        <div class="flex flex-col h-full overflow-y-auto scrollbar-none">
+            
+            <!-- Sidebar Header: Brand & Environment -->
+            <div class="p-4 border-b border-studio-100 flex items-center justify-between">
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 group">
+                    <div class="w-9 h-9 rounded-xl bg-studio-950 text-white flex items-center justify-center font-mono font-bold text-xs shadow-xs ring-1 ring-studio-800 group-hover:scale-105 transition-transform">
+                        IS
                     </div>
+                    <div>
+                        <div class="font-bold text-sm tracking-tight text-studio-950 leading-tight flex items-center space-x-1.5">
+                            <span>IdihSebel</span>
+                            <span class="text-[9px] font-mono font-semibold px-1.5 py-0.2 rounded bg-studio-100 text-studio-600 border border-studio-200">ADMIN</span>
+                        </div>
+                        <div class="text-[11px] font-mono text-studio-400 leading-tight mt-0.5">Studio Console</div>
+                    </div>
+                </a>
+
+                <!-- Close Button on Mobile -->
+                <button 
+                    @click="sidebarOpen = false" 
+                    class="lg:hidden p-1.5 rounded-lg text-studio-400 hover:text-studio-700 hover:bg-studio-100 transition-colors"
+                >
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Database Status Indicator -->
+            <div class="px-4 py-2 bg-studio-50/80 border-b border-studio-100 flex items-center justify-between text-[11px] font-mono text-studio-600">
+                <div class="flex items-center space-x-2">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    <span class="font-semibold text-studio-700">MySQL: idihsebel</span>
+                </div>
+                <span class="text-studio-400 text-[10px]">127.0.0.1</span>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="p-3.5 space-y-6 flex-1 text-xs font-medium">
+                
+                <!-- Section 1: Dashboard -->
+                <div class="space-y-1">
+                    <div class="px-2 pb-1.5 text-[10px] font-mono font-semibold uppercase tracking-wider text-studio-400">
+                        Menu Utama
+                    </div>
+                    <a 
+                        href="{{ route('admin.dashboard') }}" 
+                        @click="if(window.location.pathname === '{{ route('admin.dashboard', [], false) }}') { window.scrollTo({ top: 0, behavior: 'smooth' }); sidebarOpen = false; }"
+                        class="flex items-center space-x-2.5 px-3 py-2 rounded-xl transition-all {{ request()->routeIs('admin.dashboard') && !request()->routeIs('admin.members.*') && !request()->routeIs('admin.projects.*') ? 'bg-studio-950 text-white font-semibold shadow-xs' : 'text-studio-600 hover:bg-studio-100 hover:text-studio-950' }}"
+                    >
+                        <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                        <span>Dashboard Overview</span>
+                    </a>
                 </div>
 
-                <!-- Right Actions -->
-                <div class="flex items-center space-x-2 sm:space-x-3">
-                    <!-- Live Web Preview Link -->
+                <!-- Section 2: Tim & Anggota -->
+                <div class="space-y-1">
+                    <div class="px-2 pb-1.5 text-[10px] font-mono font-semibold uppercase tracking-wider text-studio-400">
+                        Kolektif Studio
+                    </div>
+                    <a 
+                        href="{{ route('admin.dashboard') }}#members-section" 
+                        @click="sidebarOpen = false"
+                        class="flex items-center justify-between px-3 py-2 rounded-xl transition-all {{ request()->routeIs('admin.members.*') ? 'bg-studio-950 text-white font-semibold shadow-xs' : 'text-studio-600 hover:bg-studio-100 hover:text-studio-950' }}"
+                    >
+                        <div class="flex items-center space-x-2.5">
+                            <svg class="w-4 h-4 text-studio-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            <span>6 Anggota Tim RPL</span>
+                        </div>
+                        <span class="px-1.5 py-0.2 rounded font-mono text-[10px] font-bold {{ request()->routeIs('admin.members.*') ? 'bg-studio-800 text-white' : 'bg-studio-100 text-studio-600 border border-studio-200' }}">
+                            6
+                        </span>
+                    </a>
+                </div>
+
+                <!-- Section 3: Portofolio Proyek -->
+                <div class="space-y-1">
+                    <div class="px-2 pb-1.5 text-[10px] font-mono font-semibold uppercase tracking-wider text-studio-400">
+                        Portofolio & Karya
+                    </div>
+                    <a 
+                        href="{{ route('admin.dashboard') }}#projects-section" 
+                        @click="sidebarOpen = false"
+                        class="flex items-center justify-between px-3 py-2 rounded-xl transition-all {{ request()->routeIs('admin.projects.edit') ? 'bg-studio-950 text-white font-semibold shadow-xs' : 'text-studio-600 hover:bg-studio-100 hover:text-studio-950' }}"
+                    >
+                        <div class="flex items-center space-x-2.5">
+                            <svg class="w-4 h-4 text-studio-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                            </svg>
+                            <span>Katalog Proyek</span>
+                        </div>
+                        <span class="px-1.5 py-0.2 rounded font-mono text-[10px] font-bold bg-studio-100 text-studio-600 border border-studio-200">
+                            {{ rescue(fn() => \App\Models\Project::count(), 4) }}
+                        </span>
+                    </a>
+                    <a 
+                        href="{{ route('admin.projects.create') }}" 
+                        @click="sidebarOpen = false"
+                        class="flex items-center space-x-2.5 px-3 py-2 rounded-xl transition-all {{ request()->routeIs('admin.projects.create') ? 'bg-studio-950 text-white font-semibold shadow-xs' : 'text-studio-600 hover:bg-studio-100 hover:text-studio-950' }}"
+                    >
+                        <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="16"></line>
+                            <line x1="8" y1="12" x2="16" y2="12"></line>
+                        </svg>
+                        <span>Tambah Proyek Baru</span>
+                    </a>
+                </div>
+
+                <!-- Section 4: Akun & Konfigurasi -->
+                <div class="space-y-1">
+                    <div class="px-2 pb-1.5 text-[10px] font-mono font-semibold uppercase tracking-wider text-studio-400">
+                        Pengaturan
+                    </div>
+                    <a 
+                        href="{{ route('admin.profile') }}" 
+                        @click="sidebarOpen = false"
+                        class="flex items-center space-x-2.5 px-3 py-2 rounded-xl transition-all {{ request()->routeIs('admin.profile') ? 'bg-studio-950 text-white font-semibold shadow-xs' : 'text-studio-600 hover:bg-studio-100 hover:text-studio-950' }}"
+                    >
+                        <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <span>Akun Pengelola</span>
+                    </a>
                     <a 
                         href="{{ route('portfolio.index') }}" 
                         target="_blank" 
-                        class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-studio-600 hover:text-studio-950 hover:bg-studio-100 border border-studio-200 transition-colors"
-                        title="Buka Website Portofolio Publik"
+                        class="flex items-center justify-between px-3 py-2 rounded-xl text-studio-600 hover:bg-studio-100 hover:text-studio-950 transition-colors"
                     >
-                        <span>Web Publik</span>
-                        <svg class="w-3.5 h-3.5 text-studio-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                        <div class="flex items-center space-x-2.5">
+                            <svg class="w-4 h-4 text-studio-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="2" y1="12" x2="22" y2="12"></line>
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                            </svg>
+                            <span>Lihat Web Publik</span>
+                        </div>
+                        <svg class="w-3.5 h-3.5 text-studio-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                             <polyline points="15 3 21 3 21 9"></polyline>
                             <line x1="10" y1="14" x2="21" y2="3"></line>
                         </svg>
                     </a>
-
-                    <div class="h-4 w-px bg-studio-200 hidden sm:block"></div>
-
-                    <!-- User Account & Session -->
-                    <div class="flex items-center space-x-3">
-                        <a href="{{ route('admin.profile') }}" class="text-right hidden md:block hover:opacity-80 transition-opacity" title="Kelola Kredensial & Profil Admin">
-                            <div class="text-xs font-semibold text-studio-900 leading-tight">{{ Auth::user()->name ?? 'Admin IdihSebel' }}</div>
-                            <div class="text-[11px] font-mono text-studio-400 leading-tight">{{ Auth::user()->email ?? 'admin@idihsebel.id' }}</div>
-                        </a>
-
-                        <!-- Logout Button -->
-                        <form action="{{ route('admin.logout') }}" method="POST" class="inline">
-                            @csrf
-                            <button 
-                                type="submit" 
-                                class="inline-flex items-center space-x-1 px-2.5 py-1.5 rounded-lg text-xs font-medium text-studio-600 hover:text-red-600 hover:bg-red-50 border border-transparent hover:border-red-200 transition-colors"
-                                title="Keluar dari sesi admin"
-                            >
-                                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                                    <polyline points="16 17 21 12 16 7"></polyline>
-                                    <line x1="21" y1="12" x2="9" y2="12"></line>
-                                </svg>
-                                <span class="hidden sm:inline">Keluar</span>
-                            </button>
-                        </form>
-                    </div>
-
                 </div>
+
+            </nav>
+        </div>
+
+        <!-- Sidebar Footer: Authenticated User Info & Logout -->
+        <div class="p-3 border-t border-studio-200 bg-studio-50/70">
+            <div class="flex items-center justify-between gap-2 p-2 rounded-xl bg-white border border-studio-200/90 shadow-2xs">
+                
+                <a href="{{ route('admin.profile') }}" class="flex items-center space-x-2.5 min-w-0 flex-1 hover:opacity-85 transition-opacity" title="Kelola Akun Admin">
+                    <div class="w-8 h-8 rounded-lg bg-studio-950 text-white font-mono font-bold text-xs flex items-center justify-center shrink-0 shadow-xs">
+                        {{ strtoupper(substr(Auth::user()->name ?? 'AD', 0, 2)) }}
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <div class="text-xs font-bold text-studio-900 truncate leading-tight">
+                            {{ Auth::user()->name ?? 'Admin IdihSebel' }}
+                        </div>
+                        <div class="text-[10px] font-mono text-studio-400 truncate leading-tight mt-0.5">
+                            {{ Auth::user()->email ?? 'admin@idihsebel.id' }}
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Logout Form -->
+                <form action="{{ route('admin.logout') }}" method="POST" class="shrink-0" onsubmit="return confirm('Apakah Anda yakin ingin keluar dari sesi admin?');">
+                    @csrf
+                    <button 
+                        type="submit" 
+                        class="p-1.5 rounded-lg text-studio-400 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
+                        title="Keluar dari sesi admin"
+                    >
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                    </button>
+                </form>
 
             </div>
         </div>
 
-        <!-- Secondary Navigation Tab Bar (Clean Studio Tabs) -->
-        <div class="border-t border-studio-100 bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <nav class="flex space-x-6 text-xs font-medium overflow-x-auto scrollbar-none" aria-label="Tabs">
-                    <a 
-                        href="{{ route('admin.dashboard') }}" 
-                        class="py-3 px-1 border-b-2 {{ request()->routeIs('admin.dashboard') ? 'border-studio-950 text-studio-950 font-semibold' : 'border-transparent text-studio-500 hover:text-studio-900 hover:border-studio-300' }} transition-colors whitespace-nowrap"
-                    >
-                        Ringkasan Dashboard
-                    </a>
-                    <a 
-                        href="{{ route('admin.dashboard') }}#members-section" 
-                        class="py-3 px-1 border-b-2 border-transparent text-studio-500 hover:text-studio-900 hover:border-studio-300 transition-colors whitespace-nowrap"
-                    >
-                        6 Anggota Tim
-                    </a>
-                    <a 
-                        href="{{ route('admin.dashboard') }}#projects-section" 
-                        class="py-3 px-1 border-b-2 border-transparent text-studio-500 hover:text-studio-900 hover:border-studio-300 transition-colors whitespace-nowrap"
-                    >
-                        Portofolio Proyek
-                    </a>
-                    <a 
-                        href="{{ route('admin.projects.create') }}" 
-                        class="py-3 px-1 border-b-2 {{ request()->routeIs('admin.projects.create') ? 'border-studio-950 text-studio-950 font-semibold' : 'border-transparent text-studio-500 hover:text-studio-900 hover:border-studio-300' }} transition-colors whitespace-nowrap flex items-center space-x-1"
-                    >
-                        <svg class="w-3 h-3 text-studio-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="12" y1="5" x2="12" y2="19"></line>
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                        </svg>
-                        <span>Tambah Proyek</span>
-                    </a>
-                    <a 
-                        href="{{ route('admin.profile') }}" 
-                        class="py-3 px-1 border-b-2 {{ request()->routeIs('admin.profile') ? 'border-studio-950 text-studio-950 font-semibold' : 'border-transparent text-studio-500 hover:text-studio-900 hover:border-studio-300' }} transition-colors whitespace-nowrap"
-                    >
-                        Akun Pengelola
-                    </a>
-                </nav>
-            </div>
-        </div>
+    </aside>
 
-    </header>
-
-    <!-- NOTIFICATION SYSTEM -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 w-full">
-        @if (session('success'))
-            <div 
-                x-data="{ show: true }" 
-                x-show="show" 
-                class="flex items-center justify-between p-3.5 mb-2 rounded-lg bg-white border border-emerald-200 text-studio-900 text-xs shadow-xs"
-                role="alert"
-            >
-                <div class="flex items-center space-x-2.5">
-                    <div class="w-5 h-5 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-200">
-                        <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                    </div>
-                    <span class="font-medium text-studio-800">{{ session('success') }}</span>
-                </div>
-                <button @click="show = false" class="text-studio-400 hover:text-studio-700 p-1">
-                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
+    <!-- =========================================================================
+         MAIN APPLICATION AREA (OFFSET FOR FIXED SIDEBAR ON DESKTOP)
+         ========================================================================= -->
+    <div class="lg:pl-64 flex flex-col flex-1 min-h-screen">
+        
+        <!-- Top App Bar (Breadcrumb & Mobile Hamburger) -->
+        <header class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-studio-200 h-14 flex items-center justify-between px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex items-center space-x-3">
+                <!-- Hamburger Trigger for Mobile Drawer -->
+                <button 
+                    @click="sidebarOpen = true" 
+                    type="button"
+                    class="lg:hidden p-2 rounded-lg border border-studio-200 text-studio-600 hover:text-studio-950 hover:bg-studio-50 transition-colors"
+                    aria-label="Buka menu sidebar"
+                >
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
                     </svg>
                 </button>
-            </div>
-        @endif
 
-        @if (session('error'))
-            <div 
-                x-data="{ show: true }" 
-                x-show="show" 
-                class="flex items-center justify-between p-3.5 mb-2 rounded-lg bg-white border border-rose-200 text-studio-900 text-xs shadow-xs"
-                role="alert"
-            >
-                <div class="flex items-center space-x-2.5">
-                    <div class="w-5 h-5 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 border border-rose-200">
-                        <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <!-- Breadcrumb Path -->
+                <div class="flex items-center space-x-2 text-xs font-mono text-studio-500">
+                    <a href="{{ route('admin.dashboard') }}" class="text-studio-400 hover:text-studio-800 transition-colors">Console</a>
+                    <span>/</span>
+                    <span class="font-semibold text-studio-950">@yield('title', 'Dashboard')</span>
+                </div>
+            </div>
+
+            <!-- Top Right Action Controls -->
+            <div class="flex items-center space-x-2.5">
+                
+                <!-- Database badge -->
+                <div class="hidden sm:inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono bg-studio-100 text-studio-600 border border-studio-200">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    <span>MySQL Synced</span>
+                </div>
+
+                <!-- Direct Link to Public Web -->
+                <a 
+                    href="{{ route('portfolio.index') }}" 
+                    target="_blank" 
+                    class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-studio-700 hover:text-studio-950 hover:bg-studio-50 border border-studio-200 shadow-2xs transition-colors"
+                >
+                    <span>Web Publik</span>
+                    <svg class="w-3.5 h-3.5 text-studio-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                </a>
+            </div>
+
+        </header>
+
+        <!-- FLASH NOTIFICATION TOASTS -->
+        <div class="px-4 sm:px-6 lg:px-8 pt-4 w-full">
+            @if (session('success'))
+                <div 
+                    x-data="{ show: true }" 
+                    x-show="show" 
+                    class="flex items-center justify-between p-3.5 mb-2 rounded-xl bg-white border border-emerald-300 text-studio-900 text-xs shadow-xs"
+                    role="alert"
+                >
+                    <div class="flex items-center space-x-2.5">
+                        <div class="w-5 h-5 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-200">
+                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                        <span class="font-medium text-studio-800">{{ session('success') }}</span>
+                    </div>
+                    <button @click="show = false" class="text-studio-400 hover:text-studio-700 p-1 cursor-pointer">
+                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="18" y1="6" x2="6" y2="18"></line>
                             <line x1="6" y1="6" x2="18" y2="18"></line>
                         </svg>
+                    </button>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div 
+                    x-data="{ show: true }" 
+                    x-show="show" 
+                    class="flex items-center justify-between p-3.5 mb-2 rounded-xl bg-white border border-rose-300 text-studio-900 text-xs shadow-xs"
+                    role="alert"
+                >
+                    <div class="flex items-center space-x-2.5">
+                        <div class="w-5 h-5 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 border border-rose-200">
+                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </div>
+                        <span class="font-medium text-studio-800">{{ session('error') }}</span>
                     </div>
-                    <span class="font-medium text-studio-800">{{ session('error') }}</span>
+                    <button @click="show = false" class="text-studio-400 hover:text-studio-700 p-1 cursor-pointer">
+                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
                 </div>
-                <button @click="show = false" class="text-studio-400 hover:text-studio-700 p-1">
-                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                </button>
-            </div>
-        @endif
+            @endif
 
-        @if (isset($errors) && $errors->any())
-            <div 
-                x-data="{ show: true }" 
-                x-show="show" 
-                class="p-4 mb-2 rounded-lg bg-white border border-amber-300 text-studio-900 text-xs shadow-xs space-y-1.5"
-                role="alert"
-            >
-                <div class="flex items-center space-x-2 font-semibold text-amber-800">
-                    <svg class="w-4 h-4 text-amber-600 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="8" x2="12" y2="12"></line>
-                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                    </svg>
-                    <span>Periksa kesalahan input berikut:</span>
+            @if (isset($errors) && $errors->any())
+                <div 
+                    x-data="{ show: true }" 
+                    x-show="show" 
+                    class="p-4 mb-2 rounded-xl bg-white border border-amber-300 text-studio-900 text-xs shadow-xs space-y-1.5"
+                    role="alert"
+                >
+                    <div class="flex items-center space-x-2 font-semibold text-amber-800">
+                        <svg class="w-4 h-4 text-amber-600 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                        <span>Periksa kesalahan input berikut:</span>
+                    </div>
+                    <ul class="list-disc list-inside space-y-0.5 text-studio-600 ml-4 font-mono text-[11px]">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
-                <ul class="list-disc list-inside space-y-0.5 text-studio-600 ml-4 font-mono text-[11px]">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-    </div>
-
-    <!-- MAIN CONSOLE WORKSPACE -->
-    <main class="flex-1 pb-20">
-        @yield('content')
-    </main>
-
-    <!-- MINIMAL CONSOLE FOOTER -->
-    <footer class="bg-white border-t border-studio-200 py-5 text-xs text-studio-500">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div class="flex items-center space-x-2">
-                <span class="font-bold text-studio-900">IdihSebel</span>
-                <span class="text-studio-300">•</span>
-                <span>Software & Design Studio (SMKN 1 Ciamis RPL)</span>
-            </div>
-            <div class="font-mono text-[11px] text-studio-400">
-                Studio Console • PHP {{ PHP_VERSION }} • Laravel 11
-            </div>
+            @endif
         </div>
-    </footer>
+
+        <!-- MAIN VIEW SLOT -->
+        <main class="flex-1 pb-16">
+            @yield('content')
+        </main>
+
+        <!-- SUBTLE FOOTER -->
+        <footer class="border-t border-studio-200 bg-white py-4 px-4 sm:px-6 lg:px-8 text-xs text-studio-400 flex flex-col sm:flex-row items-center justify-between gap-2 font-mono text-[11px]">
+            <div>&copy; {{ date('Y') }} <strong>IdihSebel</strong> — Studio Rekayasa Perangkat Lunak (SMKN 1 Ciamis RPL)</div>
+            <div>Database: MySQL (idihsebel) • Laravel 11</div>
+        </footer>
+
+    </div>
 
     @stack('scripts')
 </body>

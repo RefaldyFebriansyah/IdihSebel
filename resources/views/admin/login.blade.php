@@ -142,7 +142,7 @@
                             type="email" 
                             name="email" 
                             id="email" 
-                            value="{{ old('email', 'admin@idihsebel.id') }}" 
+                            value="{{ old('email') }}" 
                             required 
                             autocomplete="email"
                             class="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-studio-200 bg-studio-50/50 hover:bg-studio-50 focus:bg-white text-studio-900 text-xs placeholder-studio-400 focus:outline-none focus:border-studio-950 focus:ring-4 focus:ring-studio-950/5 transition-all font-medium"
@@ -169,7 +169,7 @@
                             :type="showPass ? 'text' : 'password'"
                             name="password" 
                             id="password" 
-                            value="admin123"
+                            value=""
                             required 
                             autocomplete="current-password"
                             class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-studio-200 bg-studio-50/50 hover:bg-studio-50 focus:bg-white text-studio-900 text-xs placeholder-studio-400 focus:outline-none focus:border-studio-950 focus:ring-4 focus:ring-studio-950/5 transition-all font-medium"
