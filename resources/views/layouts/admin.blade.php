@@ -59,7 +59,7 @@
 </head>
 <body 
     x-data="{ sidebarOpen: false }" 
-    class="h-full font-sans text-brand-900 bg-[#F8F9FA] antialiased flex flex-col selection:bg-brand-950 selection:text-white"
+    class="h-full font-sans text-brand-900 bg-[#F8F9FA] antialiased flex flex-col selection:bg-brand-950 selection:text-white overflow-x-hidden"
 >
 
     <!-- MOBILE SIDEBAR BACKDROP OVERLAY -->
@@ -283,7 +283,7 @@
     <!-- =========================================================================
          MAIN APPLICATION AREA
          ========================================================================= -->
-    <div class="lg:pl-64 flex flex-col flex-1 min-h-screen">
+    <div class="lg:pl-64 flex flex-col flex-1 min-h-screen overflow-x-hidden min-w-0">
         
         <!-- Top App Bar -->
         <header class="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-brand-200/80 h-14 flex items-center justify-between px-4 sm:px-6 lg:px-8">

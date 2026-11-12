@@ -3,7 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-10" x-data="{ searchQuery: '', activeCategory: 'all' }">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8" x-data="{ searchQuery: '', activeCategory: 'all' }">
 
     <!-- PAGE HEADER -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-brand-200/80">
@@ -20,7 +20,7 @@
                 Selamat datang di panel admin IdihSebel. Kelola profil anggota tim dan portofolio karya di sini.
             </p>
         </div>
-        <div class="flex items-center space-x-2.5">
+        <div class="flex items-center space-x-2.5 shrink-0">
             <a 
                 href="{{ route('admin.projects.create') }}" 
                 class="inline-flex items-center space-x-2 px-4 py-2.5 rounded-xl bg-brand-950 hover:bg-brand-900 text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer"
@@ -46,14 +46,14 @@
         </div>
     </div>
 
-    <!-- STATS CARDS (MODERN APP SAAS TILES) -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+    <!-- STATS CARDS (CLEAN MODERN TILES) -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         
         <!-- Total Anggota -->
         <div class="bg-white rounded-2xl border border-brand-200/80 p-5 space-y-3 shadow-2xs hover:shadow-xs transition-shadow">
             <div class="flex items-center justify-between">
                 <span class="text-xs font-medium text-brand-500">Total Anggota</span>
-                <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                <div class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
                     <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                         <circle cx="9" cy="7" r="4"></circle>
@@ -63,7 +63,7 @@
                 </div>
             </div>
             <div>
-                <div class="text-2xl sm:text-3xl font-bold tracking-tight text-brand-950">{{ $stats['total_members'] }} Orang</div>
+                <div class="text-2xl font-bold tracking-tight text-brand-950">{{ $stats['total_members'] }} Orang</div>
                 <div class="text-xs text-brand-500 mt-1">Tim Inti RPL SMKN 1 Ciamis</div>
             </div>
         </div>
@@ -72,7 +72,7 @@
         <div class="bg-white rounded-2xl border border-brand-200/80 p-5 space-y-3 shadow-2xs hover:shadow-xs transition-shadow">
             <div class="flex items-center justify-between">
                 <span class="text-xs font-medium text-brand-500">Portofolio Proyek</span>
-                <div class="w-9 h-9 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center">
+                <div class="w-8 h-8 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center shrink-0">
                     <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
                         <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
@@ -80,7 +80,7 @@
                 </div>
             </div>
             <div>
-                <div class="text-2xl sm:text-3xl font-bold tracking-tight text-brand-950">{{ $stats['total_projects'] }} Proyek</div>
+                <div class="text-2xl font-bold tracking-tight text-brand-950">{{ $stats['total_projects'] }} Proyek</div>
                 <div class="text-xs text-brand-500 mt-1">Tampil di halaman depan</div>
             </div>
         </div>
@@ -89,14 +89,14 @@
         <div class="bg-white rounded-2xl border border-brand-200/80 p-5 space-y-3 shadow-2xs hover:shadow-xs transition-shadow">
             <div class="flex items-center justify-between">
                 <span class="text-xs font-medium text-brand-500">Status Kesiapan</span>
-                <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
                     <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="20 6 9 17 4 12"></polyline>
                     </svg>
                 </div>
             </div>
             <div>
-                <div class="text-2xl sm:text-3xl font-bold tracking-tight text-emerald-600">{{ $stats['available_members'] }} dari {{ $stats['total_members'] }} Siap</div>
+                <div class="text-2xl font-bold tracking-tight text-emerald-600">{{ $stats['available_members'] }} dari {{ $stats['total_members'] }} Siap</div>
                 <div class="text-xs text-brand-500 mt-1">Siap menerima tawaran proyek</div>
             </div>
         </div>
@@ -105,7 +105,7 @@
         <div class="bg-white rounded-2xl border border-brand-200/80 p-5 space-y-3 shadow-2xs hover:shadow-xs transition-shadow">
             <div class="flex items-center justify-between">
                 <span class="text-xs font-medium text-brand-500">Keahlian & Tools</span>
-                <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+                <div class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
                     <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
                         <polyline points="2 17 12 22 22 17"></polyline>
@@ -114,7 +114,7 @@
                 </div>
             </div>
             <div>
-                <div class="text-2xl sm:text-3xl font-bold tracking-tight text-brand-950">{{ $stats['total_skills'] }} Keahlian</div>
+                <div class="text-2xl font-bold tracking-tight text-brand-950">{{ $stats['total_skills'] }} Keahlian</div>
                 <div class="text-xs text-brand-500 mt-1">Web, Mobile, Backend & Cloud</div>
             </div>
         </div>
@@ -143,23 +143,25 @@
         <!-- 6 Member Cards Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             @foreach ($members as $member)
-                <div class="bg-white rounded-2xl border border-brand-200/80 p-5 flex flex-col justify-between space-y-4 shadow-2xs hover:shadow-xs hover:border-brand-300 transition-all">
+                <div class="bg-white rounded-2xl border border-brand-200/80 p-5 flex flex-col justify-between space-y-4 shadow-2xs hover:shadow-xs hover:border-brand-300 transition-all overflow-hidden min-w-0">
                     
-                    <div class="space-y-3.5">
+                    <div class="space-y-3.5 min-w-0">
                         <!-- Top Header: Avatar + Status + Name -->
-                        <div class="flex items-start justify-between">
-                            <div class="flex items-center space-x-3.5">
-                                <!-- Avatar -->
-                                <div class="relative shrink-0">
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="flex items-center space-x-3.5 min-w-0">
+                                
+                                <!-- Exact Fixed Avatar Container (Never Blows Up) -->
+                                <div class="relative shrink-0 w-12 h-12" style="width: 48px; height: 48px;">
                                     @if ($member->avatar_url)
                                         <img 
                                             src="{{ $member->avatar_url }}" 
                                             alt="{{ $member->name }}" 
-                                            class="w-13 h-13 rounded-2xl object-cover ring-2 ring-brand-100 bg-brand-50 shadow-2xs"
+                                            class="w-12 h-12 rounded-xl object-cover ring-2 ring-brand-100 bg-brand-50 shadow-2xs shrink-0 block"
+                                            style="width: 48px; height: 48px; max-width: 48px; max-height: 48px; object-fit: cover;"
                                             onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ urlencode($member->name) }}&background=0f172a&color=ffffff&size=160';"
                                         >
                                     @else
-                                        <div class="w-13 h-13 rounded-2xl bg-brand-950 text-white font-bold text-sm flex items-center justify-center shadow-2xs">
+                                        <div class="w-12 h-12 rounded-xl bg-brand-950 text-white font-bold text-sm flex items-center justify-center shadow-2xs shrink-0" style="width: 48px; height: 48px;">
                                             {{ strtoupper(substr($member->name, 0, 2)) }}
                                         </div>
                                     @endif
@@ -172,16 +174,16 @@
                                 </div>
 
                                 <!-- Name & Role -->
-                                <div>
+                                <div class="min-w-0 flex-1">
                                     <div class="flex items-center space-x-1.5">
-                                        <h3 class="text-sm font-bold text-brand-950 tracking-tight leading-tight">
+                                        <h3 class="text-sm font-bold text-brand-950 tracking-tight leading-tight truncate">
                                             {{ $member->name }}
                                         </h3>
-                                        <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded-md bg-brand-100 text-brand-600">
+                                        <span class="text-[10px] font-semibold px-1.5 py-0.5 rounded-md bg-brand-100 text-brand-600 shrink-0">
                                             #{{ sprintf('%02d', $member->index_number) }}
                                         </span>
                                     </div>
-                                    <div class="text-xs text-brand-600 font-medium line-clamp-1 mt-0.5">
+                                    <div class="text-xs text-brand-600 font-medium truncate mt-0.5">
                                         {{ $member->role }}
                                     </div>
                                 </div>
@@ -189,7 +191,7 @@
                         </div>
 
                         <!-- Specialization Pill -->
-                        <div class="text-xs text-brand-700 bg-brand-50 px-3 py-1.5 rounded-xl border border-brand-100 line-clamp-1">
+                        <div class="text-xs text-brand-700 bg-brand-50 px-3 py-1.5 rounded-xl border border-brand-100 truncate">
                             {{ $member->specialization }}
                         </div>
 
@@ -321,7 +323,7 @@
                         (searchQuery === '' || '{{ strtolower($project->title) }}'.includes(searchQuery.toLowerCase()) || '{{ strtolower($project->category) }}'.includes(searchQuery.toLowerCase())) &&
                         (activeCategory === 'all' || (activeCategory === 'featured' && {{ $project->is_featured ? 'true' : 'false' }}))
                     "
-                    class="bg-white rounded-2xl border border-brand-200/80 overflow-hidden flex flex-col justify-between shadow-2xs hover:shadow-xs hover:border-brand-300 transition-all group"
+                    class="bg-white rounded-2xl border border-brand-200/80 overflow-hidden flex flex-col justify-between shadow-2xs hover:shadow-xs hover:border-brand-300 transition-all group min-w-0"
                 >
                     <div>
                         <!-- Thumbnail Preview -->
@@ -348,10 +350,10 @@
                         </div>
 
                         <!-- Card Body -->
-                        <div class="p-5 space-y-3">
+                        <div class="p-5 space-y-3 min-w-0">
                             <div class="space-y-1">
-                                <div class="text-xs text-brand-400 font-medium">{{ $project->client_or_context }}</div>
-                                <h3 class="text-base font-bold text-brand-950 tracking-tight leading-snug line-clamp-1">
+                                <div class="text-xs text-brand-400 font-medium truncate">{{ $project->client_or_context }}</div>
+                                <h3 class="text-base font-bold text-brand-950 tracking-tight leading-snug truncate">
                                     {{ $project->title }}
                                 </h3>
                             </div>
