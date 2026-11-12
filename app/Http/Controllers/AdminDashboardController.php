@@ -8,6 +8,8 @@ use App\Models\Project;
 use App\Models\Skill;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -238,6 +240,50 @@ class AdminDashboardController extends Controller
 
         return redirect()->route('admin.dashboard')
             ->with('success', "Proyek \"{$title}\" berhasil dihapus!");
+    }
+
+    /**
+     * Show admin profile and credentials edit form.
+     */
+    public function editProfile(): View
+    {
+        $admin = Auth::user();
+
+        return view('admin.profile', compact('admin'));
+    }
+
+    /**
+     * Update admin profile, email, or password in MySQL database.
+     */
+    public function updateProfile(Request $request): RedirectResponse
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'password' => ['nullable', 'string', 'min:6', 'confirmed'],
+        ], [
+            'name.required' => 'Nama admin wajib diisi.',
+            'email.required' => 'Email admin wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Alamat email ini sudah digunakan oleh akun lain.',
+            'password.min' => 'Kata sandi baru minimal 6 karakter.',
+            'password.confirmed' => 'Konfirmasi kata sandi baru tidak cocok.',
+        ]);
+
+        $user->name = $validated['name'];
+        $user->email = $validated['email'];
+
+        if (! empty($validated['password'])) {
+            $user->password = Hash::make($validated['password']);
+        }
+
+        $user->save();
+
+        return redirect()->route('admin.profile')
+            ->with('success', 'Akun admin berhasil diperbarui dan tersimpan di database MySQL!');
     }
 }
 

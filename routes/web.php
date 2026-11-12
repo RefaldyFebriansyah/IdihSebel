@@ -38,6 +38,10 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/projects/{project}/edit', [AdminDashboardController::class, 'editProject'])->name('projects.edit');
     Route::put('/projects/{project}', [AdminDashboardController::class, 'updateProject'])->name('projects.update');
     Route::delete('/projects/{project}', [AdminDashboardController::class, 'destroyProject'])->name('projects.destroy');
+
+    // Admin Account & Credentials Management
+    Route::get('/profile', [AdminDashboardController::class, 'editProfile'])->name('profile');
+    Route::put('/profile', [AdminDashboardController::class, 'updateProfile'])->name('profile.update');
 });
 
 // Storage File Serving Fallback (Windows Environment Support)

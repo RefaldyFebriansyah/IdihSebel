@@ -104,10 +104,10 @@
 
                     <!-- User Account & Session -->
                     <div class="flex items-center space-x-3">
-                        <div class="text-right hidden md:block">
-                            <div class="text-xs font-semibold text-studio-900 leading-tight">Admin IdihSebel</div>
-                            <div class="text-[11px] font-mono text-studio-400 leading-tight">admin@idihsebel.id</div>
-                        </div>
+                        <a href="{{ route('admin.profile') }}" class="text-right hidden md:block hover:opacity-80 transition-opacity" title="Kelola Kredensial & Profil Admin">
+                            <div class="text-xs font-semibold text-studio-900 leading-tight">{{ Auth::user()->name ?? 'Admin IdihSebel' }}</div>
+                            <div class="text-[11px] font-mono text-studio-400 leading-tight">{{ Auth::user()->email ?? 'admin@idihsebel.id' }}</div>
+                        </a>
 
                         <!-- Logout Button -->
                         <form action="{{ route('admin.logout') }}" method="POST" class="inline">
@@ -163,6 +163,12 @@
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                         </svg>
                         <span>Tambah Proyek</span>
+                    </a>
+                    <a 
+                        href="{{ route('admin.profile') }}" 
+                        class="py-3 px-1 border-b-2 {{ request()->routeIs('admin.profile') ? 'border-studio-950 text-studio-950 font-semibold' : 'border-transparent text-studio-500 hover:text-studio-900 hover:border-studio-300' }} transition-colors whitespace-nowrap"
+                    >
+                        Akun Pengelola
                     </a>
                 </nav>
             </div>

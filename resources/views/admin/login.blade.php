@@ -59,47 +59,56 @@
 <body class="relative min-h-screen font-sans text-studio-900 bg-[#FAFAFB] antialiased flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 overflow-hidden selection:bg-studio-950 selection:text-white">
 
     <!-- =========================================================================
-         FULLSCREEN INTERACTIVE 3D WEBGL BACKGROUND CANVAS
+         FULLSCREEN 3D INTERACTIVE DIGITAL TOPOGRAPHY & GEOMETRIC CANVAS
          ========================================================================= -->
     <div 
         id="login-3d-canvas-wrap" 
         class="fixed inset-0 z-0 pointer-events-auto cursor-grab active:cursor-grabbing overflow-hidden"
-        title="Klik dan geser untuk memutar objek 3D"
+        title="Gerakkan kursor atau seret untuk mengontrol sudut pandang 3D"
     ></div>
 
-    <!-- =========================================================================
-         FOREGROUND LOGIN CARD (FROSTED GLASS STUDIO ELEVATION)
-         ========================================================================= -->
-    <div class="relative z-10 w-full max-w-sm space-y-6 my-auto py-10 pointer-events-auto">
-        
-        <!-- Header Branding (Minimal Studio Mark) -->
-        <div class="text-center space-y-2 select-none">
-            <div class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-studio-950 text-white font-mono font-bold text-sm shadow-md mb-1 ring-1 ring-white/20">
-                IS
-            </div>
-            <h1 class="text-xl font-bold tracking-tight text-studio-950">
-                IdihSebel Console
-            </h1>
-            <p class="text-xs text-studio-500 max-w-xs mx-auto">
-                Autentikasi panel manajemen studio dan portofolio tim RPL SMKN 1 Ciamis.
-            </p>
-        </div>
+    <!-- Soft Ambient Vignette Overlay -->
+    <div class="fixed inset-0 z-1 pointer-events-none bg-radial-[circle_at_center,transparent_0%,rgba(250,250,251,0.35)_60%,rgba(250,250,251,0.85)_100%]"></div>
 
-        <!-- Auth Card -->
-        <div class="bg-white/88 backdrop-blur-xl rounded-2xl border border-studio-200/90 shadow-[0_12px_40px_rgba(0,0,0,0.06)] p-6 sm:p-7 space-y-5 transition-all">
+    <!-- =========================================================================
+         FOREGROUND LOGIN CARD (PREMIUM ELEVATED STUDIO ARCHITECTURE)
+         ========================================================================= -->
+    <div 
+        x-data="{ showPass: false }" 
+        class="relative z-10 w-full max-w-[400px] my-auto py-8 pointer-events-auto"
+    >
+        
+        <!-- Elevated Studio Card -->
+        <div class="bg-white/95 backdrop-blur-2xl rounded-3xl border border-studio-200/90 shadow-[0_24px_60px_-15px_rgba(0,0,0,0.08),0_1px_3px_rgba(0,0,0,0.04)] p-8 sm:p-9 space-y-6 transition-all">
+            
+            <!-- Centered Card Header -->
+            <div class="text-center space-y-2 select-none">
+                <!-- Studio Emblem -->
+                <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-studio-950 text-white font-mono font-bold text-sm shadow-md mb-1 ring-4 ring-studio-100">
+                    IS
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold tracking-tight text-studio-950">
+                        IdihSebel Console
+                    </h1>
+                    <p class="text-xs text-studio-500 mt-1 max-w-[280px] mx-auto leading-relaxed">
+                        Panel kontrol studio & portofolio tim RPL SMKN 1 Ciamis
+                    </p>
+                </div>
+            </div>
 
             <!-- Flash Error Message -->
             @if (isset($errors) && $errors->any())
-                <div class="p-3 rounded-xl bg-rose-50/90 border border-rose-200 text-rose-900 text-xs font-medium space-y-1">
+                <div class="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-900 text-xs font-medium space-y-1">
                     <div class="flex items-center space-x-1.5 font-semibold text-rose-800">
-                        <svg class="w-3.5 h-3.5 text-rose-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg class="w-4 h-4 text-rose-600 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="12" cy="12" r="10"></circle>
                             <line x1="12" y1="8" x2="12" y2="12"></line>
                             <line x1="12" y1="16" x2="12.01" y2="16"></line>
                         </svg>
                         <span>Kredensial tidak valid</span>
                     </div>
-                    <ul class="list-disc list-inside text-[11px] text-rose-700">
+                    <ul class="list-disc list-inside text-[11px] text-rose-700 ml-1">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
@@ -108,25 +117,10 @@
             @endif
 
             @if (session('success'))
-                <div class="p-3 rounded-xl bg-emerald-50/90 border border-emerald-200 text-emerald-800 text-xs font-medium">
+                <div class="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-medium">
                     {{ session('success') }}
                 </div>
             @endif
-
-            <!-- Quick Auto-Fill Helper -->
-            <div class="p-3 bg-studio-50/90 rounded-xl border border-studio-200/80 text-xs flex items-center justify-between gap-2">
-                <div class="space-y-0.5">
-                    <div class="text-[11px] font-semibold text-studio-700">Akun Pengelola Default:</div>
-                    <div class="font-mono text-[11px] text-studio-500">admin@idihsebel.id</div>
-                </div>
-                <button 
-                    type="button" 
-                    id="btn-autofill"
-                    class="px-2.5 py-1 rounded-lg bg-white hover:bg-studio-100 text-studio-800 border border-studio-300 text-[11px] font-medium transition-all cursor-pointer shadow-2xs active:scale-95"
-                >
-                    Gunakan Akun
-                </button>
-            </div>
 
             <!-- Login Form -->
             <form action="{{ route('admin.login.submit') }}" method="POST" class="space-y-4">
@@ -134,61 +128,93 @@
 
                 <!-- Email Input -->
                 <div class="space-y-1.5">
-                    <label for="email" class="block text-xs font-semibold text-studio-700">
-                        Alamat Email
+                    <label for="email" class="block text-xs font-semibold text-studio-800">
+                        Email Admin
                     </label>
-                    <input 
-                        type="email" 
-                        name="email" 
-                        id="email" 
-                        value="{{ old('email', 'admin@idihsebel.id') }}" 
-                        required 
-                        autocomplete="email"
-                        class="w-full px-3 py-2 rounded-lg border border-studio-200 bg-white/90 text-studio-900 text-xs placeholder-studio-400 focus:outline-none focus:ring-1 focus:ring-studio-950 focus:border-studio-950 transition-colors"
-                        placeholder="admin@idihsebel.id"
-                    >
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-studio-400">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                        </div>
+                        <input 
+                            type="email" 
+                            name="email" 
+                            id="email" 
+                            value="{{ old('email', 'admin@idihsebel.id') }}" 
+                            required 
+                            autocomplete="email"
+                            class="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-studio-200 bg-studio-50/50 hover:bg-studio-50 focus:bg-white text-studio-900 text-xs placeholder-studio-400 focus:outline-none focus:border-studio-950 focus:ring-4 focus:ring-studio-950/5 transition-all font-medium"
+                            placeholder="admin@idihsebel.id"
+                        >
+                    </div>
                 </div>
 
-                <!-- Password Input -->
+                <!-- Password Input with Show/Hide Toggle -->
                 <div class="space-y-1.5">
                     <div class="flex items-center justify-between">
-                        <label for="password" class="block text-xs font-semibold text-studio-700">
+                        <label for="password" class="block text-xs font-semibold text-studio-800">
                             Kata Sandi
                         </label>
                     </div>
-                    <input 
-                        type="password" 
-                        name="password" 
-                        id="password" 
-                        value="admin123"
-                        required 
-                        autocomplete="current-password"
-                        class="w-full px-3 py-2 rounded-lg border border-studio-200 bg-white/90 text-studio-900 text-xs placeholder-studio-400 focus:outline-none focus:ring-1 focus:ring-studio-950 focus:border-studio-950 transition-colors"
-                        placeholder="••••••••"
-                    >
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-studio-400">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                        </div>
+                        <input 
+                            :type="showPass ? 'text' : 'password'"
+                            name="password" 
+                            id="password" 
+                            value="admin123"
+                            required 
+                            autocomplete="current-password"
+                            class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-studio-200 bg-studio-50/50 hover:bg-studio-50 focus:bg-white text-studio-900 text-xs placeholder-studio-400 focus:outline-none focus:border-studio-950 focus:ring-4 focus:ring-studio-950/5 transition-all font-medium"
+                            placeholder="••••••••"
+                        >
+                        <button 
+                            type="button" 
+                            @click="showPass = !showPass"
+                            class="absolute inset-y-0 right-0 pr-3 flex items-center text-studio-400 hover:text-studio-700 transition-colors focus:outline-none cursor-pointer"
+                            title="Tampilkan / Sembunyikan sandi"
+                        >
+                            <svg x-show="!showPass" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                            <svg x-show="showPass" x-cloak class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                <line x1="1" y1="1" x2="23" y2="23"></line>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Remember Me Checkbox -->
-                <div class="flex items-center justify-between text-xs pt-0.5">
+                <!-- Remember Me Option -->
+                <div class="flex items-center justify-between text-xs pt-1">
                     <label class="flex items-center space-x-2 cursor-pointer select-none">
                         <input 
                             type="checkbox" 
                             name="remember" 
                             id="remember"
                             checked
-                            class="w-3.5 h-3.5 rounded text-studio-950 border-studio-300 focus:ring-studio-950"
+                            class="w-4 h-4 rounded text-studio-950 border-studio-300 focus:ring-studio-950 cursor-pointer"
                         >
-                        <span class="text-studio-600 text-xs">Simpan sesi masuk</span>
+                        <span class="text-studio-600 text-xs font-medium">Ingat sesi saya</span>
                     </label>
+                    <span class="font-mono text-[10px] text-studio-400">Aman &bull; HTTPS</span>
                 </div>
 
                 <!-- Submit Button -->
                 <button 
                     type="submit" 
-                    class="w-full py-2.5 px-4 rounded-lg bg-studio-950 hover:bg-studio-900 text-white font-semibold text-xs tracking-tight shadow-md transition-all active:scale-[0.99] flex items-center justify-center space-x-1.5"
+                    class="group w-full py-3 px-4 rounded-xl bg-studio-950 hover:bg-studio-900 text-white font-bold text-xs tracking-tight shadow-[0_4px_14px_rgba(0,0,0,0.12)] hover:shadow-[0_6px_20px_rgba(0,0,0,0.18)] active:scale-[0.99] transition-all flex items-center justify-center space-x-2 cursor-pointer mt-2"
                 >
                     <span>Masuk ke Console</span>
-                    <svg class="w-3.5 h-3.5 text-studio-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg class="w-3.5 h-3.5 text-studio-400 group-hover:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                         <polyline points="12 5 19 12 12 19"></polyline>
                     </svg>
@@ -198,10 +224,10 @@
         </div>
 
         <!-- Back to Website Link -->
-        <div class="text-center">
+        <div class="text-center pt-3">
             <a 
                 href="{{ route('portfolio.index') }}" 
-                class="inline-flex items-center space-x-1.5 text-xs text-studio-500 hover:text-studio-950 transition-colors bg-white/60 backdrop-blur-xs px-3 py-1.5 rounded-full border border-studio-200/60 shadow-2xs"
+                class="inline-flex items-center space-x-1.5 text-xs text-studio-500 hover:text-studio-950 transition-colors font-medium"
             >
                 <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="19" y1="12" x2="5" y2="12"></line>
@@ -214,215 +240,182 @@
     </div>
 
     <!-- =========================================================================
-         THREE.JS 3D SCENE SCRIPT
+         THREE.JS 3D SCENE: ARCHITECTURAL DIGITAL TOPOGRAPHY & KINETIC CONSTELLATION
          ========================================================================= -->
     <script>
-        // 1-Click Auto-Fill Demo Helper
-        document.getElementById('btn-autofill')?.addEventListener('click', function() {
-            document.getElementById('email').value = 'admin@idihsebel.id';
-            document.getElementById('password').value = 'admin123';
-        });
-
-        // 3D WebGL Background Engine
+        // Modern 3D WebGL Background Engine
         document.addEventListener('DOMContentLoaded', function () {
             const container = document.getElementById('login-3d-canvas-wrap');
             if (!container || typeof THREE === 'undefined') return;
 
             // 1. Scene, Camera, Renderer
             const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 11.0;
+            scene.fog = new THREE.FogExp2(0xFAFAFB, 0.055);
+
+            const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 100);
+            camera.position.set(0, 3.2, 9.8);
+            camera.lookAt(0, 0, 0);
 
             const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            renderer.shadowMap.enabled = true;
+            renderer.setClearColor(0xFAFAFB, 1.0);
             container.appendChild(renderer.domElement);
 
-            // 2. Multi-Point Studio Lighting
-            const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
+            // 2. Lighting Setup (Soft Studio Radiance)
+            const ambientLight = new THREE.AmbientLight(0xffffff, 1.4);
             scene.add(ambientLight);
 
-            const dirLight1 = new THREE.DirectionalLight(0xffffff, 2.5);
-            dirLight1.position.set(8, 10, 8);
-            scene.add(dirLight1);
+            const dirLight = new THREE.DirectionalLight(0x2563eb, 1.8);
+            dirLight.position.set(5, 8, 5);
+            scene.add(dirLight);
 
-            const dirLight2 = new THREE.DirectionalLight(0x2563eb, 3.5); // Studio Electric Klein Blue rim
-            dirLight2.position.set(-8, -5, -4);
-            scene.add(dirLight2);
+            const rimLight = new THREE.DirectionalLight(0x38bdf8, 1.2);
+            rimLight.position.set(-6, -4, -3);
+            scene.add(rimLight);
 
-            const dirLight3 = new THREE.DirectionalLight(0x38bdf8, 2.2); // Cyan accent rim
-            dirLight3.position.set(5, -6, -5);
-            scene.add(dirLight3);
+            // 3. Mathematical Undulating Terrain Wave (Digital Software Matrix)
+            const gridWidth = 32;
+            const gridDepth = 32;
+            const gridSegments = 54;
+            const terrainGeo = new THREE.PlaneGeometry(gridWidth, gridDepth, gridSegments, gridSegments);
+            terrainGeo.rotateX(-Math.PI / 2.2);
 
-            const centerPointLight = new THREE.PointLight(0x60a5fa, 2.8, 16);
-            centerPointLight.position.set(0, 0, 0);
-            scene.add(centerPointLight);
-
-            // 3. Central 3D Kinetic Sculptural Group
-            const modelGroup = new THREE.Group();
-            scene.add(modelGroup);
-
-            // Responsive Scaling and Positioning
-            function updateScale() {
-                const width = window.innerWidth;
-                let scale = 1.0;
-                if (width < 640) {
-                    scale = 0.72;
-                } else if (width < 1024) {
-                    scale = 0.88;
-                } else {
-                    scale = 1.05;
-                }
-                modelGroup.scale.set(scale, scale, scale);
+            // Store original coordinates
+            const posAttr = terrainGeo.attributes.position;
+            const origCoords = [];
+            for (let i = 0; i < posAttr.count; i++) {
+                origCoords.push({
+                    x: posAttr.getX(i),
+                    y: posAttr.getY(i),
+                    z: posAttr.getZ(i)
+                });
             }
-            updateScale();
 
-            // 4. Kinetic Sculptural Components
-            // A. Outer Polyhedron Crystalline Shell (Midnight Obsidian with Mirror Speculars)
-            const coreGeo = new THREE.IcosahedronGeometry(1.65, 1);
-            const coreMat = new THREE.MeshPhysicalMaterial({
-                color: 0x0f172a,
-                metalness: 0.9,
-                roughness: 0.15,
-                clearcoat: 1.0,
-                clearcoatRoughness: 0.1,
-                reflectivity: 1.0,
-                flatShading: true,
-            });
-            const coreMesh = new THREE.Mesh(coreGeo, coreMat);
-            modelGroup.add(coreMesh);
-
-            // B. Inner Glowing Chromatic Core
-            const innerGeo = new THREE.OctahedronGeometry(1.05, 0);
-            const innerMat = new THREE.MeshStandardMaterial({
-                color: 0x1d4ed8,
-                emissive: 0x3b82f6,
-                emissiveIntensity: 0.95,
-                metalness: 0.8,
-                roughness: 0.2,
-            });
-            const innerMesh = new THREE.Mesh(innerGeo, innerMat);
-            modelGroup.add(innerMesh);
-
-            // C. Multi-Layered Neon Wireframe Lattice
-            const wireframeGeo1 = new THREE.WireframeGeometry(coreGeo);
-            const wireframeMat1 = new THREE.LineBasicMaterial({
-                color: 0x60a5fa,
-                transparent: true,
-                opacity: 0.75,
-            });
-            const wireframe1 = new THREE.LineSegments(wireframeGeo1, wireframeMat1);
-            wireframe1.scale.set(1.035, 1.035, 1.035);
-            modelGroup.add(wireframe1);
-
-            const wireframeGeo2 = new THREE.WireframeGeometry(new THREE.DodecahedronGeometry(2.18, 0));
-            const wireframeMat2 = new THREE.LineBasicMaterial({
+            // Wireframe Material (Clean Slate & Tech Blue)
+            const terrainMat = new THREE.MeshBasicMaterial({
                 color: 0x3b82f6,
+                wireframe: true,
                 transparent: true,
-                opacity: 0.35,
+                opacity: 0.18,
             });
-            const wireframe2 = new THREE.LineSegments(wireframeGeo2, wireframeMat2);
-            modelGroup.add(wireframe2);
+            const terrainMesh = new THREE.Mesh(terrainGeo, terrainMat);
+            terrainMesh.position.set(0, -2.8, -1.0);
+            scene.add(terrainMesh);
 
-            // D. Multi-Axis Gyroscopic Rings
-            // Ring 1 (Polished Dark Chrome)
-            const ring1Radius = 2.65;
-            const ring1Geo = new THREE.TorusGeometry(ring1Radius, 0.045, 16, 120);
-            const ring1Mat = new THREE.MeshStandardMaterial({
-                color: 0x27272a,
-                metalness: 0.95,
-                roughness: 0.15,
-            });
-            const ring1 = new THREE.Mesh(ring1Geo, ring1Mat);
-            ring1.rotation.x = Math.PI / 3;
-            modelGroup.add(ring1);
-
-            // Ring 2 (Electric Klein Blue)
-            const ring2Radius = 3.15;
-            const ring2Geo = new THREE.TorusGeometry(ring2Radius, 0.04, 16, 120);
-            const ring2Mat = new THREE.MeshStandardMaterial({
+            // Vertex Light Points
+            const pointsMat = new THREE.PointsMaterial({
                 color: 0x2563eb,
-                metalness: 0.85,
-                roughness: 0.2,
+                size: 0.045,
+                transparent: true,
+                opacity: 0.55
             });
-            const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
-            ring2.rotation.y = Math.PI / 4;
-            ring2.rotation.z = Math.PI / 6;
-            modelGroup.add(ring2);
+            const terrainPoints = new THREE.Points(terrainGeo, pointsMat);
+            terrainPoints.position.copy(terrainMesh.position);
+            scene.add(terrainPoints);
 
-            // Ring 3 (Platinum Silver)
-            const ring3Radius = 3.65;
-            const ring3Geo = new THREE.TorusGeometry(ring3Radius, 0.03, 16, 120);
-            const ring3Mat = new THREE.MeshStandardMaterial({
-                color: 0xa1a1aa,
-                metalness: 0.95,
-                roughness: 0.1,
-            });
-            const ring3 = new THREE.Mesh(ring3Geo, ring3Mat);
-            ring3.rotation.x = -Math.PI / 4;
-            ring3.rotation.y = Math.PI / 3;
-            modelGroup.add(ring3);
+            // 4. Peripheral Flanking 3D Geometric Sculptures (Framing the card on Left & Right)
+            // Left Sculpture: Kinetic Octahedron in Wireframe Gyroscope
+            const leftGroup = new THREE.Group();
+            leftGroup.position.set(-4.5, 0.4, 0.5);
+            scene.add(leftGroup);
 
-            // E. Orbiting Satellite Nodes
-            const satelliteGeo = new THREE.SphereGeometry(0.12, 16, 16);
-            const satelliteMat = new THREE.MeshStandardMaterial({
-                color: 0x93c5fd,
-                emissive: 0x3b82f6,
-                emissiveIntensity: 0.9,
-                metalness: 0.9,
-                roughness: 0.1,
-            });
+            const leftGeo = new THREE.OctahedronGeometry(1.2, 0);
+            const leftWire = new THREE.LineSegments(
+                new THREE.WireframeGeometry(leftGeo),
+                new THREE.LineBasicMaterial({ color: 0x2563eb, transparent: true, opacity: 0.65 })
+            );
+            leftGroup.add(leftWire);
 
-            const sat1 = new THREE.Mesh(satelliteGeo, satelliteMat);
-            ring1.add(sat1);
+            const leftRing = new THREE.Mesh(
+                new THREE.TorusGeometry(1.7, 0.02, 16, 80),
+                new THREE.MeshBasicMaterial({ color: 0x64748b, transparent: true, opacity: 0.45 })
+            );
+            leftRing.rotation.x = Math.PI / 3;
+            leftGroup.add(leftRing);
 
-            const sat2 = new THREE.Mesh(satelliteGeo, satelliteMat);
-            ring2.add(sat2);
+            // Right Sculpture: Kinetic Icosahedron with Satellite Ring
+            const rightGroup = new THREE.Group();
+            rightGroup.position.set(4.5, -0.2, 0.8);
+            scene.add(rightGroup);
 
-            const sat3 = new THREE.Mesh(satelliteGeo, satelliteMat);
-            ring3.add(sat3);
+            const rightGeo = new THREE.IcosahedronGeometry(1.25, 0);
+            const rightWire = new THREE.LineSegments(
+                new THREE.WireframeGeometry(rightGeo),
+                new THREE.LineBasicMaterial({ color: 0x09090b, transparent: true, opacity: 0.55 })
+            );
+            rightGroup.add(rightWire);
 
-            // 5. Constellation Micro-Particle Cloud (240 Particles)
-            const particleCount = 240;
+            const rightRing = new THREE.Mesh(
+                new THREE.TorusGeometry(1.85, 0.02, 16, 80),
+                new THREE.MeshBasicMaterial({ color: 0x3b82f6, transparent: true, opacity: 0.45 })
+            );
+            rightRing.rotation.y = Math.PI / 4;
+            rightGroup.add(rightRing);
+
+            // Adjust flanking positions on resize
+            function updateFlankingPositions() {
+                const width = window.innerWidth;
+                if (width < 768) {
+                    leftGroup.position.set(-2.6, 2.8, -2.5);
+                    leftGroup.scale.set(0.65, 0.65, 0.65);
+                    rightGroup.position.set(2.6, -2.8, -2.5);
+                    rightGroup.scale.set(0.65, 0.65, 0.65);
+                } else if (width < 1024) {
+                    leftGroup.position.set(-3.6, 0.5, -0.5);
+                    leftGroup.scale.set(0.85, 0.85, 0.85);
+                    rightGroup.position.set(3.6, -0.3, -0.5);
+                    rightGroup.scale.set(0.85, 0.85, 0.85);
+                } else {
+                    leftGroup.position.set(-4.6, 0.5, 0.5);
+                    leftGroup.scale.set(1.0, 1.0, 1.0);
+                    rightGroup.position.set(4.6, -0.3, 0.5);
+                    rightGroup.scale.set(1.0, 1.0, 1.0);
+                }
+            }
+            updateFlankingPositions();
+
+            // 5. Constellation Micro-Particle Motes (160 Particles)
+            const particleCount = 160;
             const particleGeo = new THREE.BufferGeometry();
-            const particlePositions = new Float32Array(particleCount * 3);
+            const particlePos = new Float32Array(particleCount * 3);
 
             for (let i = 0; i < particleCount * 3; i += 3) {
-                const radius = 2.2 + Math.random() * 3.5;
-                const theta = Math.random() * Math.PI * 2;
-                const phi = Math.acos((Math.random() * 2) - 1);
-                particlePositions[i] = radius * Math.sin(phi) * Math.cos(theta);
-                particlePositions[i + 1] = radius * Math.sin(phi) * Math.sin(theta);
-                particlePositions[i + 2] = radius * Math.cos(phi);
+                particlePos[i] = (Math.random() - 0.5) * 16;
+                particlePos[i + 1] = (Math.random() - 0.5) * 10;
+                particlePos[i + 2] = (Math.random() - 0.5) * 10;
             }
 
-            particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+            particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
             const particleMat = new THREE.PointsMaterial({
-                color: 0x3b82f6,
-                size: 0.055,
+                color: 0x60a5fa,
+                size: 0.04,
                 transparent: true,
-                opacity: 0.75
+                opacity: 0.6
             });
             const particles = new THREE.Points(particleGeo, particleMat);
-            modelGroup.add(particles);
+            scene.add(particles);
 
-            // 6. Mouse Parallax & Interactive Drag
+            // 6. Smooth Mouse Parallax & Interactive Orbiting
             let mouseX = 0;
             let mouseY = 0;
-            let targetRotationX = 0;
-            let targetRotationY = 0;
+            let targetCamX = 0;
+            let targetCamY = 3.2;
             let isDragging = false;
-            let previousMousePosition = { x: 0, y: 0 };
+            let prevMouse = { x: 0, y: 0 };
+            let orbitOffset = { x: 0, y: 0 };
 
             window.addEventListener('mousemove', function (e) {
                 mouseX = (e.clientX / window.innerWidth) * 2 - 1;
                 mouseY = -(e.clientY / window.innerHeight) * 2 - 1;
+
+                targetCamX = mouseX * 0.9;
+                targetCamY = 3.2 + mouseY * 0.5;
             });
 
             container.addEventListener('mousedown', function (e) {
                 isDragging = true;
-                previousMousePosition = { x: e.clientX, y: e.clientY };
+                prevMouse = { x: e.clientX, y: e.clientY };
             });
 
             window.addEventListener('mouseup', function () {
@@ -431,20 +424,20 @@
 
             window.addEventListener('mousemove', function (e) {
                 if (!isDragging) return;
-                const deltaX = e.clientX - previousMousePosition.x;
-                const deltaY = e.clientY - previousMousePosition.y;
+                const deltaX = e.clientX - prevMouse.x;
+                const deltaY = e.clientY - prevMouse.y;
 
-                targetRotationY += deltaX * 0.008;
-                targetRotationX += deltaY * 0.008;
+                orbitOffset.x += deltaX * 0.005;
+                orbitOffset.y += deltaY * 0.005;
 
-                previousMousePosition = { x: e.clientX, y: e.clientY };
+                prevMouse = { x: e.clientX, y: e.clientY };
             });
 
             // Touch Support
             container.addEventListener('touchstart', function (e) {
                 if (e.touches.length === 1) {
                     isDragging = true;
-                    previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                    prevMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
                 }
             }, { passive: true });
 
@@ -454,13 +447,13 @@
 
             window.addEventListener('touchmove', function (e) {
                 if (!isDragging || e.touches.length !== 1) return;
-                const deltaX = e.touches[0].clientX - previousMousePosition.x;
-                const deltaY = e.touches[0].clientY - previousMousePosition.y;
+                const deltaX = e.touches[0].clientX - prevMouse.x;
+                const deltaY = e.touches[0].clientY - prevMouse.y;
 
-                targetRotationY += deltaX * 0.008;
-                targetRotationX += deltaY * 0.008;
+                orbitOffset.x += deltaX * 0.005;
+                orbitOffset.y += deltaY * 0.005;
 
-                previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                prevMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
             }, { passive: true });
 
             // 7. Window Resize Handler
@@ -470,7 +463,7 @@
                 camera.aspect = width / height;
                 camera.updateProjectionMatrix();
                 renderer.setSize(width, height);
-                updateScale();
+                updateFlankingPositions();
             }
             window.addEventListener('resize', onResize);
 
@@ -479,36 +472,37 @@
 
             function animate() {
                 requestAnimationFrame(animate);
-                const elapsedTime = clock.getElapsedTime();
+                const t = clock.getElapsedTime();
 
-                if (!isDragging) {
-                    targetRotationY += 0.0035;
-                    targetRotationX = Math.sin(elapsedTime * 0.4) * 0.12 + (mouseY * 0.25);
-                    modelGroup.rotation.y += (targetRotationY + (mouseX * 0.25) - modelGroup.rotation.y) * 0.06;
-                    modelGroup.rotation.x += (targetRotationX - modelGroup.rotation.x) * 0.06;
-                } else {
-                    modelGroup.rotation.y += (targetRotationY - modelGroup.rotation.y) * 0.15;
-                    modelGroup.rotation.x += (targetRotationX - modelGroup.rotation.x) * 0.15;
+                // Smooth camera motion
+                camera.position.x += (targetCamX + orbitOffset.x - camera.position.x) * 0.04;
+                camera.position.y += (targetCamY + orbitOffset.y - camera.position.y) * 0.04;
+                camera.lookAt(0, 0, 0);
+
+                // Mathematical terrain waves calculation
+                const pos = terrainGeo.attributes.position;
+                for (let i = 0; i < pos.count; i++) {
+                    const orig = origCoords[i];
+                    // Multi-frequency harmonic wave algorithm
+                    const wave1 = Math.sin(orig.x * 0.35 + t * 0.75) * 0.45;
+                    const wave2 = Math.cos(orig.y * 0.35 + t * 0.6) * 0.45;
+                    const ripple = Math.sin((orig.x + orig.y) * 0.25 + t * 0.9) * 0.25;
+
+                    pos.setZ(i, orig.z + wave1 + wave2 + ripple);
                 }
+                pos.needsUpdate = true;
 
-                // Kinetic components relative rotation
-                coreMesh.rotation.y = elapsedTime * 0.2;
-                innerMesh.rotation.x = elapsedTime * 0.35;
-                innerMesh.rotation.y = -elapsedTime * 0.4;
-                wireframe1.rotation.y = -elapsedTime * 0.15;
-                wireframe2.rotation.x = elapsedTime * 0.12;
+                // Animate peripheral sculptures
+                leftGroup.rotation.x = t * 0.2;
+                leftGroup.rotation.y = t * 0.3;
+                leftRing.rotation.z = -t * 0.4;
 
-                // Orbiting satellite beads along the rings
-                sat1.position.x = Math.cos(elapsedTime * 1.2) * ring1Radius;
-                sat1.position.y = Math.sin(elapsedTime * 1.2) * ring1Radius;
+                rightGroup.rotation.x = -t * 0.25;
+                rightGroup.rotation.y = -t * 0.2;
+                rightRing.rotation.z = t * 0.35;
 
-                sat2.position.x = Math.cos(elapsedTime * 0.95 + 1.5) * ring2Radius;
-                sat2.position.y = Math.sin(elapsedTime * 0.95 + 1.5) * ring2Radius;
-
-                sat3.position.x = Math.cos(elapsedTime * 0.75 + 3.0) * ring3Radius;
-                sat3.position.y = Math.sin(elapsedTime * 0.75 + 3.0) * ring3Radius;
-
-                particles.rotation.y = elapsedTime * 0.04;
+                // Particles slow drift
+                particles.rotation.y = t * 0.025;
 
                 renderer.render(scene, camera);
             }

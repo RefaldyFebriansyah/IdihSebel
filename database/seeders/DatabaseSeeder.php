@@ -19,14 +19,24 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Clear existing tables in sequence
-        DB::statement('PRAGMA foreign_keys = OFF;');
+        if (DB::getDriverName() === 'sqlite') {
+            DB::statement('PRAGMA foreign_keys = OFF;');
+        } else {
+            DB::statement('SET FOREIGN_KEY_CHECKS = 0;');
+        }
+
         Experience::truncate();
         DB::table('member_project')->truncate();
         DB::table('member_skill')->truncate();
         Project::truncate();
         Skill::truncate();
         Member::truncate();
-        DB::statement('PRAGMA foreign_keys = ON;');
+
+        if (DB::getDriverName() === 'sqlite') {
+            DB::statement('PRAGMA foreign_keys = ON;');
+        } else {
+            DB::statement('SET FOREIGN_KEY_CHECKS = 1;');
+        }
 
         // Create Default Admin User
         User::updateOrCreate(
