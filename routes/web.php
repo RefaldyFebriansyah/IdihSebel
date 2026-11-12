@@ -17,6 +17,13 @@ use Illuminate\Support\Facades\Route;
 // Public Portfolio Routes
 Route::get('/', [PortfolioController::class, 'index'])->name('portfolio.index');
 Route::get('/member/{slug}', [PortfolioController::class, 'show'])->name('portfolio.member');
+Route::get('/project/{slug}', function (string $slug) {
+    $project = \App\Models\Project::where('slug', $slug)->first();
+    if ($project && !empty($project->live_url)) {
+        return redirect()->away($project->live_url);
+    }
+    return redirect()->to(route('portfolio.index') . '#works');
+})->name('portfolio.project');
 
 // Authentication Routes
 Route::get('/loginadmin', [AdminAuthController::class, 'showLogin'])->name('admin.login');
