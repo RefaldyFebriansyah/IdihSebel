@@ -1,71 +1,72 @@
 @extends('layouts.admin')
 
-@section('title', 'Tambah Proyek Portofolio Baru')
+@section('title', 'Tambah Proyek — IdihSebel')
 
 @section('content')
-<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-8">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-8">
 
     <!-- BREADCRUMBS & TOP HEADER -->
-    <div class="space-y-2">
-        <div class="flex items-center space-x-2 text-xs font-semibold text-zinc-500">
-            <a href="{{ route('admin.dashboard') }}" class="hover:text-zinc-900 transition-colors">Dashboard</a>
+    <div class="space-y-3 pb-6 border-b border-studio-200">
+        <div class="flex items-center space-x-2 text-xs font-mono text-studio-400">
+            <a href="{{ route('admin.dashboard') }}" class="hover:text-studio-900 transition-colors">Console</a>
             <span>/</span>
-            <a href="{{ route('admin.dashboard') }}#projects-section" class="hover:text-zinc-900 transition-colors">Portofolio</a>
+            <a href="{{ route('admin.dashboard') }}#projects-section" class="hover:text-studio-900 transition-colors">Portofolio</a>
             <span>/</span>
-            <span class="text-zinc-900">Tambah Proyek Baru</span>
+            <span class="text-studio-950 font-semibold">Proyek Baru</span>
         </div>
 
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2 pb-6 border-b border-zinc-200">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-                <span class="text-xs font-bold uppercase tracking-wider text-blue-600">
-                    Formulir Proyek Baru
-                </span>
-                <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-zinc-900">
+                <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-studio-950">
                     Tambah Proyek Portofolio
                 </h1>
-                <p class="text-sm text-zinc-500 mt-0.5">
-                    Publikasikan hasil karya, studi kasus teknis, dan tetapkan kontributor tim dari 6 anggota RPL.
+                <p class="text-xs text-studio-500 mt-1 font-mono">
+                    Publikasikan studi kasus teknis dan tetapkan kontributor dari 6 rekan tim RPL.
                 </p>
             </div>
         </div>
     </div>
 
-    <!-- MAIN FORM -->
+    <!-- MAIN FORM (SETTINGS TWO-COLUMN GRID) -->
     <form 
         action="{{ route('admin.projects.store') }}" 
         method="POST" 
         enctype="multipart/form-data" 
-        class="space-y-8"
+        class="space-y-10"
     >
         @csrf
 
-        <!-- SECTION: INFORMASI UTAMA & THUMBNAIL -->
-        <div class="bg-white rounded-3xl border border-zinc-200 p-6 sm:p-8 space-y-6 shadow-2xs">
-            <h2 class="text-lg font-bold text-zinc-900 flex items-center space-x-2 pb-3 border-b border-zinc-100">
-                <span class="w-2 h-2 rounded-full bg-blue-600"></span>
-                <span>Informasi Utama & Gambar Thumbnail</span>
-            </h2>
+        <!-- SECTION 1: INFORMASI PROYEK & THUMBNAIL -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+            <div class="space-y-1">
+                <h2 class="text-sm font-bold text-studio-950">Informasi & Sampul</h2>
+                <p class="text-xs text-studio-500 leading-relaxed">
+                    Judul karya, tahun peluncuran, kategori produk, serta gambar sampul representatif.
+                </p>
+            </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            <div class="md:col-span-2 bg-white rounded-xl border border-studio-200 p-6 space-y-6 shadow-2xs">
                 
-                <!-- Thumbnail Box -->
-                <div class="space-y-4">
-                    <label class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
-                        Gambar Sampul (Thumbnail)
-                    </label>
-
-                    <div class="p-4 border-2 border-dashed border-zinc-200 rounded-2xl bg-zinc-50/50 space-y-4 text-center">
-                        <div class="relative h-44 rounded-xl bg-zinc-100 overflow-hidden border border-zinc-200 flex items-center justify-center">
+                <!-- Thumbnail Upload -->
+                <div class="space-y-3">
+                    <label class="block text-xs font-semibold text-studio-700">Gambar Sampul Proyek</label>
+                    <div class="space-y-3">
+                        <div class="relative h-40 rounded-lg overflow-hidden border border-studio-200 bg-studio-100 flex items-center justify-center">
                             <img 
                                 id="thumbnail-preview-img"
                                 src="https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=800&q=80" 
-                                alt="Pratinjau Gambar" 
+                                alt="Pratinjau Sampul" 
                                 class="w-full h-full object-cover"
                             >
                         </div>
 
-                        <div class="space-y-2">
-                            <label for="thumbnail_file" class="block w-full py-2 px-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-bold cursor-pointer transition-colors shadow-2xs">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                            <label for="thumbnail_file" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-studio-100 hover:bg-studio-200 text-studio-900 text-xs font-medium cursor-pointer transition-colors border border-studio-200">
+                                <svg class="w-3.5 h-3.5 text-studio-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="17 8 12 3 7 8"></polyline>
+                                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                                </svg>
                                 <span>Unggah Berkas Gambar</span>
                                 <input 
                                     type="file" 
@@ -75,34 +76,29 @@
                                     class="hidden"
                                 >
                             </label>
-                            <div class="text-[11px] text-zinc-400">
-                                Rekomendasi 16:9 atau 4:3 (Maksimal 5MB)
-                            </div>
+                            <span class="text-[11px] text-studio-400 font-mono">JPG, PNG, WEBP (maks. 5MB)</span>
                         </div>
-                    </div>
 
-                    <!-- Direct URL Option -->
-                    <div class="space-y-1.5 pt-1">
-                        <label for="thumbnail_url" class="block text-[11px] font-semibold text-zinc-600">
-                            Atau Tautan URL Gambar:
-                        </label>
-                        <input 
-                            type="url" 
-                            name="thumbnail_url" 
-                            id="thumbnail_url" 
-                            value="{{ old('thumbnail_url') }}" 
-                            placeholder="https://images.unsplash.com/..."
-                            class="w-full px-3 py-2 rounded-xl border border-zinc-200 text-xs font-mono text-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-900"
-                        >
+                        <div>
+                            <input 
+                                type="url" 
+                                name="thumbnail_url" 
+                                id="thumbnail_url" 
+                                value="{{ old('thumbnail_url') }}" 
+                                placeholder="Atau tautan URL gambar sampul: https://..."
+                                class="w-full px-3 py-1.5 rounded-lg border border-studio-200 text-xs font-mono text-studio-800 placeholder-studio-400 focus:outline-none focus:ring-1 focus:ring-studio-950"
+                            >
+                        </div>
                     </div>
                 </div>
 
-                <!-- Main Fields -->
-                <div class="lg:col-span-2 space-y-4">
-                    <!-- Project Title -->
+                <div class="h-px bg-studio-100"></div>
+
+                <!-- Text Fields -->
+                <div class="space-y-4">
                     <div class="space-y-1.5">
-                        <label for="title" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
-                            Judul Proyek <span class="text-red-500">*</span>
+                        <label for="title" class="block text-xs font-semibold text-studio-700">
+                            Judul Proyek <span class="text-rose-500">*</span>
                         </label>
                         <input 
                             type="text" 
@@ -111,15 +107,14 @@
                             value="{{ old('title') }}" 
                             required
                             placeholder="Misal: OmniPoint — Smart Multi-Outlet Cloud POS & Inventory"
-                            class="w-full px-4 py-2.5 rounded-xl border border-zinc-200 bg-white text-zinc-900 text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-zinc-900"
+                            class="w-full px-3 py-2 rounded-lg border border-studio-200 text-xs focus:outline-none focus:ring-1 focus:ring-studio-950 font-medium"
                         >
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <!-- Year -->
                         <div class="space-y-1.5">
-                            <label for="year" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
-                                Tahun Rilis <span class="text-red-500">*</span>
+                            <label for="year" class="block text-xs font-semibold text-studio-700">
+                                Tahun Rilis <span class="text-rose-500">*</span>
                             </label>
                             <input 
                                 type="text" 
@@ -127,15 +122,13 @@
                                 id="year" 
                                 value="{{ old('year', date('Y')) }}" 
                                 required
-                                placeholder="2024"
-                                class="w-full px-4 py-2.5 rounded-xl border border-zinc-200 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900"
+                                class="w-full px-3 py-2 rounded-lg border border-studio-200 text-xs focus:outline-none focus:ring-1 focus:ring-studio-950 font-mono"
                             >
                         </div>
 
-                        <!-- Category -->
                         <div class="space-y-1.5">
-                            <label for="category" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
-                                Kategori <span class="text-red-500">*</span>
+                            <label for="category" class="block text-xs font-semibold text-studio-700">
+                                Kategori <span class="text-rose-500">*</span>
                             </label>
                             <input 
                                 type="text" 
@@ -143,15 +136,14 @@
                                 id="category" 
                                 value="{{ old('category') }}" 
                                 required
-                                placeholder="Web Application, Mobile App, etc."
-                                class="w-full px-4 py-2.5 rounded-xl border border-zinc-200 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900"
+                                placeholder="Web Application, Mobile, etc."
+                                class="w-full px-3 py-2 rounded-lg border border-studio-200 text-xs focus:outline-none focus:ring-1 focus:ring-studio-950"
                             >
                         </div>
 
-                        <!-- Client or Context -->
                         <div class="space-y-1.5">
-                            <label for="client_or_context" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
-                                Klien / Konteks <span class="text-red-500">*</span>
+                            <label for="client_or_context" class="block text-xs font-semibold text-studio-700">
+                                Klien / Konteks <span class="text-rose-500">*</span>
                             </label>
                             <input 
                                 type="text" 
@@ -159,16 +151,15 @@
                                 id="client_or_context" 
                                 value="{{ old('client_or_context') }}" 
                                 required
-                                placeholder="Enterprise / Retail / Internal Demo"
-                                class="w-full px-4 py-2.5 rounded-xl border border-zinc-200 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900"
+                                placeholder="Retail / SMKN 1 Ciamis / Demo"
+                                class="w-full px-3 py-2 rounded-lg border border-studio-200 text-xs focus:outline-none focus:ring-1 focus:ring-studio-950"
                             >
                         </div>
                     </div>
 
-                    <!-- Tech Stack Input -->
                     <div class="space-y-1.5">
-                        <label for="tech_stack" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
-                            Tech Stack (Pisahkan dengan koma) <span class="text-red-500">*</span>
+                        <label for="tech_stack" class="block text-xs font-semibold text-studio-700">
+                            Tech Stack (pisahkan dengan koma) <span class="text-rose-500">*</span>
                         </label>
                         <input 
                             type="text" 
@@ -176,48 +167,43 @@
                             id="tech_stack" 
                             value="{{ old('tech_stack', 'Laravel 11, Vue 3, Tailwind CSS, PostgreSQL, Redis') }}" 
                             required
-                            placeholder="Laravel 11, Vue 3, Tailwind CSS, PostgreSQL"
-                            class="w-full px-4 py-2.5 rounded-xl border border-zinc-200 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900"
+                            class="w-full px-3 py-2 rounded-lg border border-studio-200 text-xs focus:outline-none focus:ring-1 focus:ring-studio-950 font-mono"
                         >
-                        <div class="text-[11px] text-zinc-400">
-                            Contoh: PHP, Laravel, Tailwind CSS, MySQL, Alpine.js
-                        </div>
                     </div>
 
-                    <!-- Featured Checkbox -->
                     <div class="pt-1">
-                        <label class="flex items-center space-x-3 p-3 rounded-xl border border-zinc-200 bg-zinc-50/70 cursor-pointer select-none">
+                        <label class="flex items-center space-x-2.5 p-2 rounded-lg border border-studio-200 bg-studio-50 cursor-pointer select-none">
                             <input 
                                 type="checkbox" 
                                 name="is_featured" 
                                 id="is_featured" 
                                 value="1" 
                                 {{ old('is_featured', true) ? 'checked' : '' }}
-                                class="w-4 h-4 rounded text-blue-600 border-zinc-300 focus:ring-blue-600"
+                                class="w-4 h-4 rounded text-studio-950 border-studio-300 focus:ring-studio-950"
                             >
-                            <div class="text-xs">
-                                <div class="font-bold text-zinc-800">Proyek Unggulan (Featured)</div>
-                                <div class="text-zinc-500 text-[11px]">Tampilkan lencana Unggulan di kartu portofolio beranda</div>
-                            </div>
+                            <span class="text-xs font-medium text-studio-800">Tampilkan sebagai Proyek Unggulan (Featured)</span>
                         </label>
                     </div>
-
                 </div>
+
             </div>
         </div>
 
-        <!-- SECTION: RINGKASAN & STUDI KASUS LENGKAP -->
-        <div class="bg-white rounded-3xl border border-zinc-200 p-6 sm:p-8 space-y-6 shadow-2xs">
-            <h2 class="text-lg font-bold text-zinc-900 flex items-center space-x-2 pb-3 border-b border-zinc-100">
-                <span class="w-2 h-2 rounded-full bg-blue-600"></span>
-                <span>Deskripsi & Studi Kasus Teknis</span>
-            </h2>
+        <div class="border-t border-studio-200"></div>
 
-            <div class="space-y-5">
-                <!-- Summary -->
+        <!-- SECTION 2: DESKRIPSI & STUDI KASUS -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="space-y-1">
+                <h2 class="text-sm font-bold text-studio-950">Studi Kasus Teknis</h2>
+                <p class="text-xs text-studio-500 leading-relaxed">
+                    Ringkasan eksekutif dan penjelasan keputusan arsitektur sistem perangkat lunak.
+                </p>
+            </div>
+
+            <div class="md:col-span-2 bg-white rounded-xl border border-studio-200 p-6 space-y-4 shadow-2xs">
                 <div class="space-y-1.5">
-                    <label for="summary" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
-                        Ringkasan Eksekutif (Maksimal 500 Karakter) <span class="text-red-500">*</span>
+                    <label for="summary" class="block text-xs font-semibold text-studio-700">
+                        Ringkasan Eksekutif (maksimal 500 karakter) <span class="text-rose-500">*</span>
                     </label>
                     <textarea 
                         name="summary" 
@@ -225,30 +211,28 @@
                         rows="3" 
                         maxlength="500"
                         required
-                        placeholder="Jelaskan secara ringkas tantangan dan solusi utama produk ini..."
-                        class="w-full px-4 py-3 rounded-xl border border-zinc-200 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-zinc-900"
+                        placeholder="Uraikan tujuan dan hasil utama produk..."
+                        class="w-full px-3 py-2 rounded-lg border border-studio-200 text-xs leading-relaxed focus:outline-none focus:ring-1 focus:ring-studio-950"
                     >{{ old('summary') }}</textarea>
                 </div>
 
-                <!-- Case Study -->
                 <div class="space-y-1.5">
-                    <label for="case_study" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
-                        Studi Kasus Teknis & Metodologi <span class="text-red-500">*</span>
+                    <label for="case_study" class="block text-xs font-semibold text-studio-700">
+                        Studi Kasus & Analisis Rekayasa <span class="text-rose-500">*</span>
                     </label>
                     <textarea 
                         name="case_study" 
                         id="case_study" 
                         rows="6" 
                         required
-                        placeholder="Uraikan arsitektur sistem, keputusan rekayasa, optimasi performa, dan hasil yang dicapai..."
-                        class="w-full px-4 py-3 rounded-xl border border-zinc-200 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-zinc-900 font-sans"
+                        placeholder="Jelaskan arsitektur backend, skema basis data, dan optimalisasi sistem..."
+                        class="w-full px-3 py-2 rounded-lg border border-studio-200 text-xs leading-relaxed focus:outline-none focus:ring-1 focus:ring-studio-950 font-sans"
                     >{{ old('case_study') }}</textarea>
                 </div>
 
-                <!-- External Links -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
                     <div class="space-y-1.5">
-                        <label for="live_url" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
+                        <label for="live_url" class="block text-xs font-semibold text-studio-700">
                             Tautan Demo Langsung (Live URL)
                         </label>
                         <input 
@@ -257,12 +241,12 @@
                             id="live_url" 
                             value="{{ old('live_url') }}" 
                             placeholder="https://..."
-                            class="w-full px-4 py-2.5 rounded-xl border border-zinc-200 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900"
+                            class="w-full px-3 py-2 rounded-lg border border-studio-200 text-xs focus:outline-none focus:ring-1 focus:ring-studio-950 font-mono"
                         >
                     </div>
 
                     <div class="space-y-1.5">
-                        <label for="repo_url" class="block text-xs font-bold uppercase tracking-wider text-zinc-700">
+                        <label for="repo_url" class="block text-xs font-semibold text-studio-700">
                             Tautan Repositori GitHub
                         </label>
                         <input 
@@ -271,84 +255,82 @@
                             id="repo_url" 
                             value="{{ old('repo_url') }}" 
                             placeholder="https://github.com/..."
-                            class="w-full px-4 py-2.5 rounded-xl border border-zinc-200 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-900"
+                            class="w-full px-3 py-2 rounded-lg border border-studio-200 text-xs focus:outline-none focus:ring-1 focus:ring-studio-950 font-mono"
                         >
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- SECTION: KONTRIBUTOR TIM (DARI 6 ANGGOTA SMKN 1 CIAMIS RPL) -->
-        <div class="bg-white rounded-3xl border border-zinc-200 p-6 sm:p-8 space-y-6 shadow-2xs">
-            <div class="flex items-center justify-between pb-3 border-b border-zinc-100">
-                <h2 class="text-lg font-bold text-zinc-900 flex items-center space-x-2">
-                    <span class="w-2 h-2 rounded-full bg-blue-600"></span>
-                    <span>Kontributor Tim (Pilih Anggota & Peran)</span>
-                </h2>
-                <span class="text-xs text-zinc-500">Centang anggota yang mengerjakan proyek ini</span>
+        <div class="border-t border-studio-200"></div>
+
+        <!-- SECTION 3: KONTRIBUTOR TIM -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="space-y-1">
+                <h2 class="text-sm font-bold text-studio-950">Kontributor Tim</h2>
+                <p class="text-xs text-studio-500 leading-relaxed">
+                    Tentukan rekan tim RPL yang terlibat dan tentukan peran spesifik pada proyek ini.
+                </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                @foreach ($members as $member)
-                    <div class="p-4 rounded-2xl border border-zinc-200 bg-zinc-50/50 space-y-3">
-                        <label class="flex items-center space-x-3 cursor-pointer select-none">
-                            <input 
-                                type="checkbox" 
-                                name="members[]" 
-                                value="{{ $member->id }}" 
-                                class="w-4 h-4 rounded text-zinc-950 border-zinc-300 focus:ring-zinc-900"
-                            >
-                            <div class="flex items-center space-x-3">
-                                <img 
-                                    src="{{ $member->avatar_url }}" 
-                                    alt="{{ $member->name }}" 
-                                    class="w-9 h-9 rounded-xl object-cover bg-zinc-200 border border-zinc-200"
-                                    onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ urlencode($member->name) }}&size=64';"
+            <div class="md:col-span-2 bg-white rounded-xl border border-studio-200 p-6 space-y-4 shadow-2xs">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    @foreach ($members as $member)
+                        <div class="p-3 rounded-lg border border-studio-200 bg-studio-50/50 space-y-2">
+                            <label class="flex items-center space-x-2.5 cursor-pointer select-none">
+                                <input 
+                                    type="checkbox" 
+                                    name="members[]" 
+                                    value="{{ $member->id }}" 
+                                    class="w-3.5 h-3.5 rounded text-studio-950 border-studio-300 focus:ring-studio-950"
                                 >
-                                <div>
-                                    <div class="text-xs font-bold text-zinc-900">#{{ sprintf('%02d', $member->index_number) }} {{ $member->name }}</div>
-                                    <div class="text-[11px] text-zinc-500">{{ $member->role }}</div>
+                                <div class="flex items-center space-x-2">
+                                    <img 
+                                        src="{{ $member->avatar_url }}" 
+                                        alt="{{ $member->name }}" 
+                                        class="w-7 h-7 rounded-md object-cover bg-studio-200 border border-studio-200 shrink-0"
+                                        onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ urlencode($member->name) }}&size=64';"
+                                    >
+                                    <div>
+                                        <div class="text-xs font-bold text-studio-900 leading-tight">#{{ sprintf('%02d', $member->index_number) }} {{ $member->name }}</div>
+                                        <div class="text-[10px] text-studio-500 font-mono line-clamp-1">{{ $member->role }}</div>
+                                    </div>
                                 </div>
-                            </div>
-                        </label>
-
-                        <div class="pl-7 space-y-1">
-                            <label class="block text-[10px] font-semibold uppercase tracking-wider text-zinc-400">
-                                Peran Spesifik di Proyek Ini:
                             </label>
-                            <input 
-                                type="text" 
-                                name="member_roles[{{ $member->id }}]" 
-                                value="{{ $member->role }}" 
-                                placeholder="Misal: Lead Backend Developer"
-                                class="w-full px-3 py-1.5 rounded-lg border border-zinc-200 bg-white text-xs text-zinc-800 focus:outline-none focus:ring-2 focus:ring-zinc-900"
-                            >
+
+                            <div class="pl-6">
+                                <input 
+                                    type="text" 
+                                    name="member_roles[{{ $member->id }}]" 
+                                    value="{{ $member->role }}" 
+                                    placeholder="Peran spesifik..."
+                                    class="w-full px-2.5 py-1 rounded border border-studio-200 bg-white text-[11px] text-studio-800 focus:outline-none focus:ring-1 focus:ring-studio-950 font-mono"
+                                >
+                            </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
         </div>
 
-        <!-- STICKY ACTION BUTTON BAR -->
-        <div class="sticky bottom-4 z-20 p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-zinc-200 shadow-xl flex items-center justify-between gap-4">
+        <!-- STICKY ACTION BAR -->
+        <div class="sticky bottom-4 z-20 p-3.5 rounded-xl bg-white/95 backdrop-blur-md border border-studio-200 shadow-md flex items-center justify-between">
             <a 
                 href="{{ route('admin.dashboard') }}" 
-                class="px-5 py-2.5 rounded-xl border border-zinc-200 text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100 text-xs font-bold transition-colors"
+                class="px-3.5 py-1.5 rounded-lg border border-studio-200 text-studio-600 hover:text-studio-950 hover:bg-studio-100 text-xs font-medium transition-colors"
             >
                 Batal
             </a>
 
-            <div class="flex items-center space-x-3">
-                <button 
-                    type="submit" 
-                    class="py-2.5 px-6 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-xs sm:text-sm tracking-tight shadow-md hover:shadow-lg transition-all active:scale-95 flex items-center space-x-2"
-                >
-                    <svg class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    <span>Simpan & Terbitkan Proyek</span>
-                </button>
-            </div>
+            <button 
+                type="submit" 
+                class="py-1.5 px-4 rounded-lg bg-studio-950 hover:bg-studio-900 text-white font-semibold text-xs tracking-tight shadow-xs transition-colors flex items-center space-x-1.5"
+            >
+                <svg class="w-3.5 h-3.5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Terbitkan Proyek</span>
+            </button>
         </div>
 
     </form>
@@ -358,7 +340,6 @@
 
 @push('scripts')
 <script>
-    // Live thumbnail preview when file chosen
     const thumbInput = document.getElementById('thumbnail_file');
     const thumbUrlInput = document.getElementById('thumbnail_url');
     const thumbPreviewImg = document.getElementById('thumbnail-preview-img');
@@ -367,8 +348,7 @@
         thumbInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                const url = URL.createObjectURL(file);
-                thumbPreviewImg.src = url;
+                thumbPreviewImg.src = URL.createObjectURL(file);
             }
         });
     }
@@ -382,4 +362,3 @@
     }
 </script>
 @endpush
-
